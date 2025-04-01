@@ -1,22 +1,27 @@
 import { ApiProperty } from '@nestjs/swagger';
-
+import { IsEmail, Matches } from 'class-validator';
 
 
 export class SignupReqDTO {
-    @ApiProperty({ example: 'email@nestjs.com' })
+    @ApiProperty({ required: true, example: 'email@nestjs.com' })
+    @IsEmail()
     email: string;
 
-    @ApiProperty({ example: '6G$TZdH(eVK' })
+    @ApiProperty({ required: true, example: '6G$TZdH2eVK' })
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}$/)
     password: string;
 
-    @ApiProperty({ example: '6G$TZdH(eVK' })
+    @ApiProperty({ required: true, example: '6G$TZdH2eVK' })
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}$/)
     passwordValidation: string;
 }
 
 export class LoginReqDTO {
-    @ApiProperty({ example: 'email@nestjs.com' })
+    @ApiProperty({ required: true, example: 'email@nestjs.com' })
+    @IsEmail()
     email: string;
     
-    @ApiProperty({ example: '6G$TZdH(eVK' })
+    @ApiProperty({ required: true, example: '6G$TZdH(eVK' })
+    @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}$/)
     password: string;
 }

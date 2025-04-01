@@ -9,7 +9,7 @@ import {
 } from 'typeorm'
 
 
-@Entity()
+@Entity('users')
 export class User {
   @PrimaryGeneratedColumn('uuid')
   id: string;
@@ -26,6 +26,6 @@ export class User {
   @UpdateDateColumn({ name:'updated_at' })
   updatedAt: Date;
 
-  @OneToMany(()=> Resumes, (resumes) => resumes.user)
+  @OneToMany(() => Resumes, (resumes) => resumes.user)
   resumes: Resumes[];
 }

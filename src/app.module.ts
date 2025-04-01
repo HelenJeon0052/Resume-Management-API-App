@@ -31,10 +31,10 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
         host: config.get('DB_HOST'),
         port: parseInt(config.get('DB_PORT') || '5432'),
         username: 'postgres',
-        password: '883030',
+        password: config.get('DB_PASSWORD'),
         database: 'postgres',
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
         logging: true,
       })
   })],

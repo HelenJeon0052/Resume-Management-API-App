@@ -2,7 +2,7 @@ import { ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 
-import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
+import { DocumentBuilder, SwaggerCustomOptions ,SwaggerModule } from '@nestjs/swagger';
 import { ConfigService } from '@nestjs/config';
 
 async function bootstrap() {
@@ -17,10 +17,19 @@ async function bootstrap() {
     .setTitle('NestJS Resume-Management')
     .setDescription('API Documentation for Resume Management')
     .setVersion('1.0')
+    .addBearerAuth()
     .build()
+  
+
+
+  const customOption: SwaggerCustomOptions = {
+    swaggerOptions: {
+      persistAuthorization: true
+    }
+  }
 
   const document = SwaggerModule.createDocument(app, config)
-  SwaggerModule.setup('api', app, document)
+  SwaggerModule.setup('api', app, document, customOption)
 
   app.useGlobalPipes (
     new ValidationPipe({

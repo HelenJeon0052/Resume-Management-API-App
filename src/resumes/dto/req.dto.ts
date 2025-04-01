@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-
+import { IsString, IsUUID, MaxLength, MinLength } from 'class-validator';
 
 
 export class CreateResumeReqDTO {
-    @ApiProperty({ example: 'my resume' })
+    @ApiProperty({ example: 'my-resume' })
+    @MinLength(5)
+    @MaxLength(30)
+    @IsString()
     title: string;
 
     @ApiProperty({
@@ -15,6 +18,7 @@ export class CreateResumeReqDTO {
 }
 
 export class FindResumeReqDTO {
-    @ApiProperty({ example: 'id' })
+    @ApiProperty({ required: true, example: 'id' })
+    @IsUUID()
     id: string;
 }
