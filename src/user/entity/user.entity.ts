@@ -1,9 +1,11 @@
+import { RefreshToken } from 'src/auth/entity/refresh-token.entity';
 import { Resumes } from 'src/resumes/entity/resumes.entity'
 import {
   Column,
   CreateDateColumn,
   Entity,
   OneToMany,
+  OneToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm'
@@ -28,4 +30,7 @@ export class User {
 
   @OneToMany(() => Resumes, (resumes) => resumes.user)
   resumes: Resumes[];
+
+  @OneToOne(() => RefreshToken, (refreshToken) => refreshToken.user)
+  refreshToken: RefreshToken;
 }
