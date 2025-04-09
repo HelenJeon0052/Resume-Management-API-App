@@ -10,4 +10,15 @@ export class SignupResDTO {
 export class LoginResDTO {
     @ApiProperty({ required: true })
     accessToken: string;
+
+    @ApiProperty({ required: true })
+    refreshToken: string;
+}
+
+export class RefreshTokenDTO {
+    @ApiProperty({ required: true })
+    accessToken: string;
+
+    @ApiProperty({ required: true })
+    refreshToken: string;
 }

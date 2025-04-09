@@ -28,8 +28,7 @@ import jwtConfig from './config/jwt.config';
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
       inject: [ConfigService],
-      useFactory: (config: ConfigService) => {
-        let obj: TypeOrmModuleOptions = {
+      useFactory: (config: ConfigService) => ({
           type: 'postgres',
           host: config.get('postgres.host'),
           port: parseInt(config.get('DB_PORT') || '5432'),
@@ -37,17 +36,11 @@ import jwtConfig from './config/jwt.config';
           password: config.get('postgres.password'),
           database: config.get('postgres.database'),
           autoLoadEntities: true,
-        };
-        if(config.get('STAGE') === 'local') {
-          console.info('Sync postgres')
-          obj = Object.assign(obj, {
-            synchronize: true,
-            logging: true
-          })
-        }
-        return obj
-      }
-  })],
+          synchronize: true,
+          logging: true
+        })
+      })
+  ],
   controllers: [AppController, ResumesController],
   providers: [AppService, AnalyticsService],
 })

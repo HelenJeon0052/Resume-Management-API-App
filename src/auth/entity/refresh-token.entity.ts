@@ -2,7 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, OneToOne, PrimaryGenerate
 import { User } from "src/user/entity/user.entity";
 
 
-@Entity()
+@Entity('refresh_tokens')
 export class RefreshToken {
     @PrimaryGeneratedColumn('uuid')
     id: string;
