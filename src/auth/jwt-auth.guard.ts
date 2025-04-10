@@ -2,15 +2,19 @@ import { BadRequestException, ExecutionContext, Injectable } from '@nestjs/commo
 import { Reflector } from '@nestjs/core';
 import { AuthGuard } from '@nestjs/passport';
 
+import { UserService } from 'src/user/user.service';
 import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 import { IS_PUBLIC_KEY } from 'src/common/decorator/public.decorator';
+import { Roles } from 'src/user/enum/user.enum';
+import { ROLES_KEY } from 'src/common/decorator/role.decorator';
 
 @Injectable()
 export class JwtAuthGuard extends AuthGuard('jwt') {
     constructor(
         private reflector: Reflector,
-        private jwtService: JwtService
+        private jwtService: JwtService,
+        private userService: UserService
     ) {
         super()
     }
@@ -42,7 +46,19 @@ export class JwtAuthGuard extends AuthGuard('jwt') {
             console.error('Access token is not valid')
             throw new BadRequestException('Access token is not valid')
         }
+
+        const requireRoles = this.reflector.getAllAndOverride<Roles[]>(ROLES_KEY,[
+            cxt.getHandler(),
+            cxt.getClass()
+        ])
         
+        if(!requireRoles) {
+            throw new BadRequestException('Admin role only has access')
+        } else if(requireRoles) {
+            const userId = decodeValue['sub']
+            return this.userService.checkUserIsAdmin(userId)
+        }
+
         return super.canActivate(cxt)
 
     }

@@ -3,7 +3,7 @@ import { Repository } from 'typeorm'
 import { InjectRepository } from '@nestjs/typeorm'
 
 import { User } from './entity/user.entity'
-
+import { Roles } from './enum/user.enum'
 
 @Injectable()
 export class UserService {
@@ -29,6 +29,11 @@ export class UserService {
   async findOneByEmail(email: string) {
     const user = await this.userRepository.findOneBy({ email })
     return user;
+  }
+
+  async checkUserIsAdmin(id: string) {
+    const user = await this.userRepository.findOneBy({ id })
+    return user?.roles === Roles.Admin
   }
 
 }

@@ -21,7 +21,7 @@ export class LoginReqDTO {
     @IsEmail()
     email: string;
     
-    @ApiProperty({ required: true, example: '6G$TZdH(eVK' })
+    @ApiProperty({ required: true, example: '6G$TZdH2eVK' })
     @Matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,30}$/)
     password: string;
 }
