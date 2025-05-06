@@ -1,0 +1,49 @@
+import { Injectable } from '@nestjs/common';
+import { Repository } from 'typeorm'
+import { InjectRepository } from '@nestjs/typeorm'
+
+import { User } from './entity/user.entity'
+import { Roles } from './enum/user.enum'
+
+@Injectable()
+export class UserService {
+  constructor(
+    @InjectRepository(User)
+    private readonly userRepository: Repository<User>
+  ) {}
+
+  async findAll() {
+    return 'find users';
+  }
+
+  async findOne(id: string) {
+    return 'find user';
+  }
+
+  async create(email: string, password: string) {
+    const user = this.userRepository.create({ email, password })
+    await this.userRepository.save(user)
+    return user;
+  }
+
+  async findOneByEmail(email: string) {
+    const user = await this.userRepository.findOneBy({ email })
+    return user;
+  }
+
+  async checkUserIsAdmin(id: string) {
+    const user = await this.userRepository.findOneBy({ id })
+    return user?.roles === Roles.Admin
+  }
+
+  async createBulk() {
+    for (let i = 3; i <= 1000; i++){
+      await this.userRepository.save(
+        this.userRepository.create({ email: `owaoo${i}@nestjs.com`, password: `Password(${i - 1})`})
+      )
+    }
+
+    return;
+  }
+
+}
